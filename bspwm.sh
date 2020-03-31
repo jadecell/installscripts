@@ -13,8 +13,10 @@ sudo -u "$1" yay --noconfirm -S polybar
 # Clones the dot files
 
 git clone https://gitlab.com/jadecell/dotfiles.git $HOME/homefiles
-chown "$1" $HOME/homefiles
-mv $HOME/homefiles $HOME
+chown "$1" $HOME/homefiles/
+chown "$1" $HOME/homefiles/*
+cp -rf $HOME/homefiles/.* $HOME
+rm -rf $HOME/homefiles/
 
 # Copy the bspwm xinit to the xinitrc
 
