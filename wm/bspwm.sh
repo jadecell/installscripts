@@ -20,6 +20,6 @@ rm -rf $HOME/homefiles/
 
 # Copy the bspwm xinit to the xinitrc
 
-cd "$HOME"
+cd $HOME
 rm -f .xinitrc
 cp -f .bspwmxinitrc .xinitrc
