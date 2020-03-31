@@ -4,6 +4,12 @@
 
 HOMEPATH="$1"
 
+
+# Runs all scripts needed before install
+
+bash yay.sh
+bash misc.sh
+
 # Installs needed software
 
 sudo pacman --needed --noconfirm -S bspwm xcompmgr sxhkd noto-fonts
