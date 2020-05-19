@@ -8,13 +8,13 @@ bash misc.sh
 # Installs needed software
 
 sudo pacman --needed --noconfirm -S bspwm xcompmgr sxhkd noto-fonts
-sudo -u "$1" yay --noconfirm -S polybar
+yay --noconfirm -S polybar
 
 # Clones the dot files
 
 git clone https://gitlab.com/jadecell/dotfiles.git $HOME/homefiles
-chown "$1" $HOME/homefiles/
-chown "$1" $HOME/homefiles/*
+chown `whoami` $HOME/homefiles/
+chown `whoami` $HOME/homefiles/*
 cp -rf $HOME/homefiles/.* $HOME
 rm -rf $HOME/homefiles/
 
