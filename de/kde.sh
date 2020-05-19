@@ -1,11 +1,13 @@
 #!/bin/bash
-
+echo "[INFO] Installing Misc Xorg packages."
 bash ../misc.sh
 
-sudo pacman --needed --noconfirm -S plasma kde-applications
+echo "[INFO] Installing all the plasma applications." 
+sudo pacman --needed --noconfirm -S plasma kde-applications >> /dev/null 2>&1 
 
 cd $HOME
 
-echo "exec startplasma-x11" > .xinitrc
+echo "[INFO] Enabling the display manager."
+sudo systemctl enable sddm >> /dev/null 2>&1 
 
-startx
+echo "[INFO] You may restart now for all changed to take effect."
