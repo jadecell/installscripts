@@ -4,41 +4,27 @@
 
 cd ~/installscripts/
 sudo ./misc.sh && ./st.sh && ./yay.sh && ./nerd-fonts.sh
-sudo pacman --noconfirm -S xcompmgr feh ranger firefox
+sudo pacman --noconfirm -S xcompmgr feh ranger firefox qtile python-pip
 
-# Clone needed repos
-
-mkdir -p ~/.local/{bin,src}
-cd ~/.local/src/
-
-git clone https://gitlab.com/jadecell/dwm.git
-git clone https://gitlab.com/jadecell/slstatus.git
-
-# Make dwm
-
-cd ~/.local/src/dwm/
-sudo make install
-
-# Make slstatus
-
-cd ~/.local/src/slstatus/
-sudo make install
 
 # Moving some files from dotfiles
 
 cd ~
+mkdir -p ~/.config/qtile
 git clone https://gitlab.com/jadecell/dotfiles
 cd dotfiles
 cp .Xresources ~
+cp -r ~/dotfiles/.config/qtile/* ~/.config/qtile/
+
+pip install psutil iwlib
 
 # Making the .xinitrc
 
 cd ~
-echo "slstatus &" >> ~/.xinitrc
 echo "xrdb ~/.Xresources &" >> ~/.xinitrc
 echo "xcompmgr &" >> ~/.xinitrc
 echo "" >> ~/.xinitrc
-echo "exec dwm" >> ~/.xinitrc
+echo "exec qtile" >> ~/.xinitrc
 
 echo ""
 echo "------------FINISHED RICING DWM------------"
