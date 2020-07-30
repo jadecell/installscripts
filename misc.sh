@@ -3,7 +3,7 @@
 # Installs the base xorg display system
 
 echo "[INFO] Installing base Xorg packages."
-sudo pacman --noconfirm --needed -S xorg xorg-xinit >> /dev/null 2>&1
+sudo pacman --noconfirm --needed -S xorg xorg-xinit dmenu >> /dev/null 2>&1
 
 # Installs a basic terminal
 echo "[INFO] Installing termite."
