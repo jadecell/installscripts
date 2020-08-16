@@ -4,8 +4,8 @@
 
 cd ~/installscripts/
 sudo ./misc.sh && ./yay.sh && ./nerd-fonts.sh
-sudo pacman --noconfirm -S xcompmgr feh ranger emacs tlp alacritty xmonad xmonad-contrib xmobar ttf-ubuntu-font-family thunderbird
-yay -S brave-bin 
+sudo pacman --noconfirm -S xcompmgr feh ranger emacs tlp alacritty xmonad xmonad-contrib xmobar ttf-ubuntu-font-family thunderbird intellij-idea-community-edition jre-openjdk jdk-openjdk
+yay --noconfirm -S brave-bin 
 
 # Moving some files from dotfiles
 
