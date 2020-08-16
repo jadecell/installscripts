@@ -17,15 +17,13 @@ cd dotfiles
 cp .Xresources ~
 cp .config/xmobar/configs/xmobarrclaptop ~/.config/xmobar/xmobarrc0
 cp .config/alacritty/alacritty.yml ~/.config/alacritty/
+cp -r .xmonad ~
 
 # Doom emacs
 
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 
-# Oh-my-zsh
- 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Starting services
  
@@ -36,7 +34,6 @@ sudo systemctl enable --now tlp
 cd ~
 echo "exec xmonad" > ~/.xinitrc
 
-echo ""
-echo "------------FINISHED RICING LAPTOP------------"
-echo ""
-
+# Oh-my-zsh
+ 
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
