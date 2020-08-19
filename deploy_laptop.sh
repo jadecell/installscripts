@@ -4,8 +4,8 @@
 
 cd ~/installscripts/
 sudo ./misc.sh && ./yay.sh && ./nerd-fonts.sh
-sudo pacman --noconfirm -S xcompmgr feh ranger emacs tlp alacritty xmonad xmonad-contrib xmobar ttf-ubuntu-font-family thunderbird intellij-idea-community-edition jre-openjdk jdk-openjdk
-yay --noconfirm -S brave-bin 
+sudo pacman --noconfirm -S xcompmgr feh ranger emacs tlp alacritty xmonad xmonad-contrib xmobar ttf-ubuntu-font-family thunderbird jre-openjdk jdk-openjdk intellij-idea-community-edition trayer
+yay --noconfirm -S waterfox-current-bin
 
 # Moving some files from dotfiles
 
@@ -18,12 +18,19 @@ cp .Xresources ~
 cp .config/xmobar/configs/xmobarrclaptop ~/.config/xmobar/xmobarrc0
 cp .config/alacritty/alacritty.yml ~/.config/alacritty/
 cp -r .xmonad ~
+cd ~
+git clone https://gitlab.com/jadecell/wallpapers.git
+cd wallpapers
+cp ~/wallpapers/Abstract/gruvbox-buildings.png ~/.config/wallpaper
 
 # Doom emacs
 
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 
+# Installs Doom emacs config
+ 
+cp -rf ~/dotfiles/.doom.d/ ~
 
 # Starting services
  
@@ -33,6 +40,10 @@ sudo systemctl enable --now tlp
 
 cd ~
 echo "exec xmonad" > ~/.xinitrc
+
+# Recompile Xmonad
+
+xmonad --recompile
 
 # Oh-my-zsh
  
