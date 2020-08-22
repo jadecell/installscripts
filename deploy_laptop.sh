@@ -32,6 +32,8 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
  
 cp -rf ~/dotfiles/.doom.d/ ~
 
+~/.emacs.d/bin/doom sync
+
 # Starting services
  
 sudo systemctl enable --now tlp
