@@ -15,7 +15,7 @@ cd ~
 git clone https://gitlab.com/jadecell/dotfiles
 cd dotfiles
 cp .Xresources ~
-cp .config/xmobarrclaptop/xmobarrclaptop ~/.config/xmobar/xmobarrc0
+cp .config/xmobarlaptop/xmobarrclaptop ~/.config/xmobar/xmobarrc0
 cp .config/alacritty/alacritty.yml ~/.config/alacritty/
 cp -r .xmonad ~
 cd ~
