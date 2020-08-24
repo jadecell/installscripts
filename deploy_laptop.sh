@@ -4,7 +4,8 @@
 
 cd ~/installscripts/
 sudo ./misc.sh && ./yay.sh && ./nerd-fonts.sh
-sudo pacman --noconfirm -S xcompmgr feh ranger emacs tlp alacritty xmonad xmonad-contrib xmobar ttf-ubuntu-font-family thunderbird jre-openjdk jdk-openjdk intellij-idea-community-edition trayer
+sudo pacman --noconfirm -S xcompmgr feh ranger emacs tlp alacritty xmonad xmonad-contrib xmobar ttf-ubuntu-font-family thunderbird jre-openjdk jdk-openjdk intellij-idea-community-edition trayer nextcloud-client python-pip
+pip install ueberzug
 yay --noconfirm -S waterfox-current-bin
 
 # Moving some files from dotfiles
@@ -21,7 +22,15 @@ cp -r .xmonad ~
 cd ~
 git clone https://gitlab.com/jadecell/wallpapers.git
 cd wallpapers
-cp ~/wallpapers/Abstract/gruvbox-buildings.png ~/.config/wallpaper
+cp ~/wallpapers/Abstract/gruvbox-minimalism.jpg ~/.config/wallpaper
+
+# Slock
+ 
+cd ~
+git clone https://gitlab.com/jadecell/slock.git
+cd slock/
+sudo make install
+cd ~
 
 # Doom emacs
 
@@ -45,7 +54,7 @@ echo "exec xmonad" > ~/.xinitrc
 
 # Recompile Xmonad
 
-xmonad --recompile
+/usr/bin/xmonad --recompile
 
 # Oh-my-zsh
  
