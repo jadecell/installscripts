@@ -4,7 +4,7 @@
 
 cd ~/installscripts/
 sudo ./misc.sh && ./st.sh && ./yay.sh && ./nerd-fonts.sh
-sudo pacman --noconfirm -S xcompmgr feh ranger firefox qtile python-pip
+sudo pacman --noconfirm -S xcompmgr feh ranger firefox qtile python-pip python-psutil python-iwlib
 
 
 # Moving some files from dotfiles
@@ -21,7 +21,7 @@ pip install psutil iwlib
 # Making the .xinitrc
 
 cd ~
-echo "xrdb ~/.Xresources &" >> ~/.xinitrc
+echo "xrdb $HOME/.Xresources &" >> ~/.xinitrc
 echo "xcompmgr &" >> ~/.xinitrc
 echo "" >> ~/.xinitrc
 echo "exec qtile" >> ~/.xinitrc

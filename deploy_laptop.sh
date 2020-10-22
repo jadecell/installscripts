@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # Execute base scripts and install programs
 
@@ -25,7 +25,7 @@ cd wallpapers
 cp ~/wallpapers/Abstract/gruvbox-minimalism.jpg ~/.config/wallpaper
 
 # Slock
- 
+
 cd ~
 git clone https://gitlab.com/jadecell/slock.git
 cd slock/
@@ -38,13 +38,13 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 
 # Installs Doom emacs config
- 
+
 cp -rf ~/dotfiles/.doom.d/ ~
 
 ~/.emacs.d/bin/doom sync
 
 # Starting services
- 
+
 sudo systemctl enable --now tlp
 
 # Making the .xinitrc
@@ -57,5 +57,5 @@ echo "exec xmonad" > ~/.xinitrc
 /usr/bin/xmonad --recompile
 
 # Oh-my-zsh
- 
+
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bash ../misc.sh
+bash ../applications/misc.sh
 
 sudo pacman --needed --noconfirm -S gnome gnome-extra
 

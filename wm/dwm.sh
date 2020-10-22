@@ -3,7 +3,7 @@
 # Execute base scripts and install programs
 
 cd ~/installscripts/
-sudo ./misc.sh && ./st.sh && ./yay.sh && ./nerd-fonts.sh
+sudo ./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
 sudo pacman --noconfirm -S xcompmgr feh ranger firefox
 
 # Clone needed repos
