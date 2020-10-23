@@ -9,7 +9,7 @@ sudo pacman --needed --noconfirm -S xcompmgr feh ranger xmonad xmonad-contrib xm
 mkdir -p $HOME/.config/xmobar/
 
 # Install dotfiles if not already installed
-! [ -d "$HOME/dotfiles/" ] && git clone https://gitlab.com/jadecell/dotfiles.git
+! [ -d "$HOME/dotfiles/" ] && git clone https://gitlab.com/jadecell/dotfiles.git $HOME/dotfiles/
 
 cp $HOME/dotfiles/.Xresources $HOME
 cp -r $HOME/dotfiles/.config/xmobar/xmobarrc? $HOME/.config/xmobar/
