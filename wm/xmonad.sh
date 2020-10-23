@@ -15,7 +15,7 @@ cp $HOME/dotfiles/.Xresources $HOME
 cp -r $HOME/dotfiles/.config/xmobar/xmobarrc? $HOME/.config/xmobar/
 
 # Changes the bar width depending on display resolution
-sed -i -e "s/,\ position\ =\ Static\ \{\ xpos\ =\ 0\ ,\ ypos=\ 0,\ width\ =\ 1920,\ height\ =\ 24\ \}/,\ position\ =\ Static\ \{\ xpos\ =\ 0\ ,\ ypos=\ 0,\ width\ =\ $1,\ height\ =\ 24\ \}" $HOME/.config/xmobar/xmobarrc0
+sed -i -e "s/,\ position\ =\ Static\ {\ xpos\ =\ 0\ ,\ ypos\ =\ 0,\ width\ =\ 1920,\ height\ =\ 24\ }/,\ position\ =\ Static\ {\ xpos\ =\ 0,\ ypos\ =\ 0,\ width\ =\ $1,\ height\ =\ 24\ }/g" $HOME/.config/xmobar/xmobarrc0
 
 cp -r $HOME/dotfiles/.xmonad/ $HOME
 
