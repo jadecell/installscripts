@@ -1,6 +1,6 @@
 #+TITLE: Jackson's Archlinux desktop installation scripts
 
-This repo is filled with various scripts that I have written to make my life easier. The purposes of the scripts are to install a component or set of components of a full archlinux desktop system. Most of my scripts are designed to install certain Desktop ENvirnments (DEs) or Window Managers (WMs).
+This repo is filled with various scripts that I have written to make my life easier. The purposes of the scripts are to install a component or set of components of a full archlinux desktop system. Most of my scripts are designed to install certain Desktop Envirnments (DEs) or Window Managers (WMs). All paths are realative to within the installscripts directory (cd'd in installscripts/)
 
 * Desktop Environments
 
@@ -11,15 +11,21 @@ This repo is filled with various scripts that I have written to make my life eas
 
 + wm/bspwm.sh -- Installs the BSPWM window manager.
 + wm/dwm.sh -- Installs the DWM window manager with all fonts, AUR helper, st, etc.
-+ wm/qtile.sh -- Install the Qtile window manager with all fonts, AUR helper, st, etc.
++ wm/qtile.sh -- Installs the Qtile window manager with all fonts, AUR helper, st, etc.
++ wm/xmonad.sh -- Installs the Xmonad window manager with all fonts, AUR helper, st, etc. (Need to pass a horizontal screen resolution for the bar)
 
-* Miscellaneous
+* Applications
+
++ applications/misc.sh -- Installs Xorg and the Termite terminal emulator.
++ applications/nerd-fonts.sh -- Downloads and install the nerd-fonts repository by *ryanoasis* on GitHub.
++ applications/st.sh -- Installs my fork of the St terminal.
++ applications/yay.sh -- Installs the Yay AUR helper.
++ applications/doomemacs.sh -- Installs and configures DOOM Emacs using my dotfiles
++ applications/neovim.sh -- Install neovim and some plugin dependacies with my configuration
+  
+* Misc
 
 + deploy_laptop.sh -- Deploys all dotfiles for Xmonad, Xmobar, fonts, AUR helper, and more for my specific latop (ThinkPad t490).
-+ misc.sh -- Installs Xorg and the Termite terminal emulator.
-+ nerd-fonts.sh -- Downloads and install the nerd-fonts repository by *ryanoasis* on GitHub.
-+ st.sh -- Installs my fork of the St terminal.
-+ yay.sh -- Installs the Yay AUR helper.
-
+  
 * Contribution
 If you want to contribute code, you are free to make a pull request. I will look over it and most likely accept it. I am just one guy and I think I could add some features. My scripts would get better over time as I learn shell scripting.
