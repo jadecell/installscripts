@@ -3,7 +3,7 @@
 [ -z "$1" ] && echo "Please supply a screen resolution for xmobar!" && exit 1
 
 cd $HOME/installscripts/
-./applications/misc.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
+./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
 sudo pacman --needed --noconfirm -S xcompmgr feh ranger xmonad xmonad-contrib xmobar firefox zsh
 
 mkdir -p $HOME/.config/xmobar/
