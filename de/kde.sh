@@ -1,13 +1,16 @@
-#!/bin/bash
-echo "[INFO] Installing Misc Xorg packages."
-bash ../applications/misc.sh
+#!/bin/sh
 
-echo "[INFO] Installing all the plasma applications."
-sudo pacman --needed --noconfirm -S plasma kde-applications >> /dev/null 2>&1
+[ -f /usr/bin/emerge ] && DISTRO="gentoo" || DISTRO="arch"
 
-cd $HOME
-
-echo "[INFO] Enabling the display manager."
-sudo systemctl enable sddm >> /dev/null 2>&1
-
-echo "[INFO] You may restart now for all changed to take effect."
+cd ~/install/scripts
+if [[ "$DISTRO" = "arch" ]]; then
+    sudo ./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
+    sudo pacman --needed --noconfirm -S plasma kde-applications
+    sudo systemctl enable sddm
+else
+    sudo ./applications/misc.sh && ./applications/st.sh && ./applications/nerd-fonts.sh
+    sudo eselect profile set default/linux/amd64/17.1/desktop/plasma
+    sudo emerge -vuDU --autounmask-continue @world
+    sudo emerge --autounmask-continue kde-plasma/plasma-meta
+    sudo rc-update add sddm default
+fi

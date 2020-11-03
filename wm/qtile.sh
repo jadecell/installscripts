@@ -1,10 +1,21 @@
 #!/usr/bin/env bash
 
+[ -f /usr/bin/emerge ] && DISTRO="gentoo" || DISTRO="arch"
+
 # Execute base scripts and install programs
 
 cd ~/installscripts/
-sudo ./misc.sh && ./st.sh && ./yay.sh && ./nerd-fonts.sh
-sudo pacman --noconfirm -S xcompmgr feh ranger firefox qtile python-pip python-psutil python-iwlib
+
+if [[ "$DISTRO" = "arch" ]]; then
+    ./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
+    sudo pacman --noconfirm -S xcompmgr feh ranger firefox qtile python-pip python-psutil python-iwlib
+else
+    ./applications/misc.sh && ./applications/st.sh && ./applications/nerd-fonts.sh
+    sudo flaggie firefox +hwaccel
+    sudo flaggie xmobar +wifi +iwlib
+    sudo emerge --autounmask-continue x11-misc/xcompmgr media-gfx/feh app-misc/ranger x11-wm/qtile dev-python/pip www-client/firefox app-shells/zsh
+    pip3 install --user psutil iwlib
+fi
 
 
 # Moving some files from dotfiles

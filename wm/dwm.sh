@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 
+[ -f /usr/bin/emerge ] && DISTRO="gentoo" || DISTRO="arch"
+
 # Execute base scripts and install programs
 
 cd ~/installscripts/
-sudo ./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
-sudo pacman --noconfirm -S xcompmgr feh ranger firefox
+
+if [[ "$DISTRO" = "arch" ]]; then
+    sudo ./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
+    sudo pacman --noconfirm --needed -S xcompmgr feh ranger firefox
+else
+    sudo ./applications/misc.sh && ./applications/st.sh && ./applications/nerd-fonts.sh
+    sudo flaggie firefox +hwaccel
+    sudo emerge --autounmask-continue x11-misc/xcompmgr media-gfx/feh app-misc/ranger www-client/firefox
+fi
+
 
 # Clone needed repos
 

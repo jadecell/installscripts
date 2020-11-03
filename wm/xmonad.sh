@@ -1,10 +1,20 @@
 #!/usr/bin/env sh
 
+[ -f /usr/bin/emerge ] && DISTRO="gentoo" || DISTRO="arch"
+
 [ -z "$1" ] && echo "Please supply a screen resolution for xmobar!" && exit 1
 
 cd $HOME/installscripts/
-./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
-sudo pacman --needed --noconfirm -S xcompmgr feh ranger xmonad xmonad-contrib xmobar firefox zsh
+
+if [[ "$DISTRO" = "arch" ]]; then
+    ./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
+    sudo pacman --needed --noconfirm -S xcompmgr feh ranger xmonad xmonad-contrib xmobar firefox zsh
+else
+    ./applications/misc.sh && ./applications/st.sh && ./applications/nerd-fonts.sh
+    sudo flaggie firefox +hwaccel
+    sudo flaggie xmobar +wifi +iwlib
+    sudo emerge --autounmask-continue x11-misc/xcompmgr media-gfx/feh app-misc/ranger x11-wm/xmonad x11-wm/xmonad-contrib x11-misc/xmobar www-client/firefox app-shells/zsh
+fi
 
 mkdir -p $HOME/.config/xmobar/
 
