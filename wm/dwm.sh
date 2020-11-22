@@ -1,20 +1,14 @@
 #!/usr/bin/env bash
 
-[ -f /usr/bin/emerge ] && DISTRO="gentoo" || DISTRO="arch"
-
-# Execute base scripts and install programs
-
-cd ~/installscripts/
-
+. ../wizard.sh
 if [[ "$DISTRO" = "arch" ]]; then
-    sudo ./applications/misc.sh && ./applications/st.sh && ./applications/yay.sh && ./applications/nerd-fonts.sh
-    sudo pacman --noconfirm --needed -S xcompmgr feh ranger firefox
+    /bin/sh ../applications/misc.sh
+    pacman --noconfirm --needed -S xcompmgr feh ranger firefox
 else
-    sudo ./applications/misc.sh && ./applications/st.sh && ./applications/nerd-fonts.sh
-    sudo flaggie firefox +hwaccel
-    sudo emerge --autounmask-continue x11-misc/xcompmgr media-gfx/feh app-misc/ranger www-client/firefox
+    /bin/sh ../applications/misc.sh
+    flaggie firefox +hwaccel
+    emerge --autounmask-continue x11-misc/xcompmgr media-gfx/feh app-misc/ranger www-client/firefox
 fi
-
 
 # Clone needed repos
 
@@ -27,19 +21,12 @@ git clone https://gitlab.com/jadecell/slstatus.git
 # Make dwm
 
 cd ~/.local/src/dwm/
-sudo make install
+make install
 
 # Make slstatus
 
 cd ~/.local/src/slstatus/
-sudo make install
-
-# Moving some files from dotfiles
-
-cd ~
-git clone https://gitlab.com/jadecell/dotfiles
-cd dotfiles
-cp .Xresources ~
+make install
 
 # Making the .xinitrc
 

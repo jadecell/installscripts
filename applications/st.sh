@@ -1,5 +1,6 @@
 #!/bin/bash
 
+. ../wizard.sh
 # Installs the powerline fonts
 
 git clone https://github.com/powerline/fonts.git powerfonts
@@ -10,12 +11,4 @@ bash install.sh
 
 git clone https://gitlab.com/jadecell/st.git st
 cd st/
-sudo make clean install
-
-# Finished
-
-echo " "
-echo "-----------------INSTALLED ST--------------------"
-echo " "
-
-
+echo $SUDOPASSWORD | sudo -S make clean install
