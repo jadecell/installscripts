@@ -3,6 +3,8 @@
 # Stopping root from running
 [ $EUID -eq 0 ] && echo "Do not run this script as root. Please run as a non-priviledged user." && exit 1
 
+USERNAME=$(whoami)
+
 # Determine the distro
 [ -f /usr/bin/emerge ] && DISTRO="gentoo" || DISTRO="arch"
 SCRIPTSDIRECTORY=$(pwd)
@@ -39,6 +41,12 @@ Option 12: Yay
 
 EOF
 read -p "Choice: " SCRIPTOTRUN
+
+touch $SCRIPTSDIRECTORY/values
+echo "SCRIPTSDIRECTORY=$SCRIPTSDIRECTORY" > $SCRIPTSDIRECTORY/values
+echo "SUDOPASSWORD=$SUDOPASSWORD" >> $SCRIPTSDIRECTORY/values
+echo "DISTRO=$DISTRO" >> $SCRIPTSDIRECTORY/values
+echo "USERNAME=$USERNAME" >> $SCRIPTSDIRECTORY/values
 
 case $SCRIPTOTRUN in
     1) echo $SUDOPASSWORD | sudo -S $SCRIPTSDIRECTORY/wm/bspwm.sh ;;
