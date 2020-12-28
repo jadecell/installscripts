@@ -14,7 +14,7 @@ read -p "Do you want the virtualization suite of applications [y/n]? " VIRTUALIZ
 [ "$VIRTUALIZATION" = "y" ] && VIRTPACKAGES="virt-manager qemu libvirt dnsmasq edk2-ovmf ebtables iptables" || VIRTPACKAGES=""
 
 info "Installing yay-bin"
-https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
 
 info "Setting up /etc/pacman.conf and /etc/makepkg.conf"
 CPUTHREADS=$(grep -c processor /proc/cpuinfo)
