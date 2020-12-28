@@ -22,8 +22,15 @@ sudo sed -i -e 's/#Color/Color/g' /etc/pacman.conf
 sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 
+
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh xmonad xmonad-contrib xmobar firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl trayer pacman-contrib ranger discord lxsession $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh xmonad xmonad-contrib xmobar firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl trayer pacman-contrib ranger discord lxsession unzip $VIRTPACKAGES
+
+info "Installing dracula gtk theme"
+sudo mkdir -p /usr/share/themes
+wget https://github.com/dracula/gtk/archive/master.zip
+unzip master.zip
+sudo cp -r gtk-master/ /usr/share/themes/Dracula
 
 [ "$VIRTUALIZATION" = "y" ] && info "Installing virtualization settings" && sudo systemctl enable --now libvirtd.service && sudo systemctl enable --now virtlogd.socket && sudo gpasswd -a $USERNAME libvirt && sudo gpasswd -a $USERNAME kvm && sudo virsh net-autostart default
 
