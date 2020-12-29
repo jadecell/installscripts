@@ -15,6 +15,8 @@ read -p "Do you want the virtualization suite of applications [y/n]? " VIRTUALIZ
 
 info "Installing yay-bin"
 git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+cd ..
+rm -rf yay-bin
 
 info "Setting up /etc/pacman.conf and /etc/makepkg.conf"
 CPUTHREADS=$(grep -c processor /proc/cpuinfo)
@@ -24,15 +26,23 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh xmonad xmonad-contrib xmobar firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl trayer pacman-contrib ranger discord lxsession unzip $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh xmonad xmonad-contrib xmobar firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl trayer pacman-contrib ranger discord lxsession unzip libreoffice $VIRTPACKAGES
 
 info "Installing dracula gtk theme"
 sudo mkdir -p /usr/share/themes
 wget https://github.com/dracula/gtk/archive/master.zip
 unzip master.zip
 sudo cp -r gtk-master/ /usr/share/themes/Dracula
+rm master.zip
 
-[ "$VIRTUALIZATION" = "y" ] && info "Installing virtualization settings" && sudo systemctl enable --now libvirtd.service && sudo systemctl enable --now virtlogd.socket && sudo gpasswd -a $USERNAME libvirt && sudo gpasswd -a $USERNAME kvm && sudo virsh net-autostart default
+if [[ "$VIRTUALIZATION" = "y" ]]; then
+    info "Virtualization setup"
+    sudo systemctl enable --now libvirtd.service
+    sudo systemctl enable --now virtlogd.socket
+    sudo gpasswd -a $USERNAME libvirt
+    sudo gpasswd -a $USERNAME kvm
+    sudo virsh net-autostart default
+fi
 
 echo "exec dbus-launch xmonad" > ~/.xinitrc
 chown $USERNAME:$USERNAME ~/.xinitrc
@@ -41,8 +51,8 @@ info "Installing spotify and mojave-gtk-theme"
 yay --noconfirm -S spotify mojave-gtk-theme
 
 info "Installing dotfiles"
-git clone https://gitlab.com/jadecell/dotfies ~/dotfiles && cp -r ~/dotfiles/.* ~ && rm -rf ~/.git
+git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles && cp -r ~/dotfiles/.* ~ && rm -rf ~/.git
 xmonad --recompile
 
 info "Installing nerd fonts"
-git clone https://github.com/ryanoasis/nerd-fonts && cd nerd-fonts && ./install.sh && rm -rf nerd-fonts
+yay --noconfirm -S nerd-fonts-complete
