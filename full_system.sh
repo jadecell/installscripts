@@ -26,7 +26,7 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh xmonad xmonad-contrib xmobar firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl trayer pacman-contrib ranger discord lxsession unzip libreoffice $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh xmonad xmonad-contrib xmobar firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl trayer pacman-contrib ranger discord lxsession unzip libreoffice jq $VIRTPACKAGES
 
 info "Installing dracula gtk theme"
 sudo mkdir -p /usr/share/themes
