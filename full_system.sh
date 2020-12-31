@@ -6,27 +6,24 @@
 
 USERNAME="$(whoami)"
 
-# Determine the distro
-[ -f /usr/bin/emerge ] && DISTRO="gentoo" || DISTRO="arch"
-
 read -p "Do you want the virtualization suite of applications [y/n]? " VIRTUALIZATION
 
 [ "$VIRTUALIZATION" = "y" ] && VIRTPACKAGES="virt-manager qemu libvirt dnsmasq edk2-ovmf ebtables iptables" || VIRTPACKAGES=""
 
 info "Installing yay-bin"
-git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg --noconfirm -si
 cd ..
 rm -rf yay-bin
 
-info "Setting up /etc/pacman.conf and /etc/makepkg.conf"
+info "Setting up /etc/pacman.conf and /etc/makepkg.conf and updating sudoers"
 CPUTHREADS=$(grep -c processor /proc/cpuinfo)
 sudo sed -i -e 's/#Color/Color/g' /etc/pacman.conf
 sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
-
+sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh xmonad xmonad-contrib xmobar firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl trayer pacman-contrib ranger discord lxsession unzip libreoffice jq $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh bspwm sxhkd firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip libreoffice jq acpi bc perl xdo wmctrl $VIRTPACKAGES
 
 info "Installing dracula gtk theme"
 sudo mkdir -p /usr/share/themes
@@ -44,15 +41,11 @@ if [[ "$VIRTUALIZATION" = "y" ]]; then
     sudo virsh net-autostart default
 fi
 
-echo "exec dbus-launch xmonad" > ~/.xinitrc
+echo "exec dbus-launch bspwm" > ~/.xinitrc
 chown $USERNAME:$USERNAME ~/.xinitrc
 
-info "Installing spotify and mojave-gtk-theme"
-yay --noconfirm -S spotify mojave-gtk-theme
+info "Installing all needed AUR packages"
+yay --noconfirm -S spotify mojave-gtk-theme polybar nerd-fonts-complete
 
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles && cp -r ~/dotfiles/.* ~ && rm -rf ~/.git
-xmonad --recompile
-
-info "Installing nerd fonts"
-yay --noconfirm -S nerd-fonts-complete
