@@ -32,6 +32,11 @@ unzip master.zip
 sudo cp -r gtk-master/ /usr/share/themes/Dracula
 rm master.zip
 
+info "Installing gruvbox-gtk"
+git clone https://github.com/3ximus/gruvbox-gtk
+cp -rf gruvbox-gtk/ /usr/share/themes/gruvbox-gtk
+rm -rf gruvbox-gtk
+
 if [[ "$VIRTUALIZATION" = "y" ]]; then
     info "Virtualization setup"
     sudo systemctl enable --now libvirtd.service
@@ -45,7 +50,7 @@ echo "exec dbus-launch bspwm" > ~/.xinitrc
 chown $USERNAME:$USERNAME ~/.xinitrc
 
 info "Installing all needed AUR packages"
-yay --noconfirm -S spotify mojave-gtk-theme polybar nerd-fonts-complete
+yay --noconfirm -S mojave-gtk-theme polybar nerd-fonts-complete starship-bin
 
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles && cp -r ~/dotfiles/.* ~ && rm -rf ~/.git
