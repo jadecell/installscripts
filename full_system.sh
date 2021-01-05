@@ -34,7 +34,7 @@ rm master.zip
 
 info "Installing gruvbox-gtk"
 git clone https://github.com/3ximus/gruvbox-gtk
-cp -rf gruvbox-gtk/ /usr/share/themes/gruvbox-gtk
+sudo cp -rf gruvbox-gtk/ /usr/share/themes/gruvbox-gtk
 rm -rf gruvbox-gtk
 
 if [[ "$VIRTUALIZATION" = "y" ]]; then
