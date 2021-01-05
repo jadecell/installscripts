@@ -47,7 +47,8 @@ if [[ "$VIRTUALIZATION" = "y" ]]; then
 fi
 
 echo "exec dbus-launch bspwm" > ~/.xinitrc
-chown $USERNAME:$USERNAME ~/.xinitrc
+echo "[ -f ~/.bashrc ] && . ~/.bashrc" > ~/.bash_profile
+echo '[ "$(tty)" = "/dev/tty1" ] && startx' >> ~/.bash_profile
 
 info "Installing all needed AUR packages"
 yay --noconfirm -S mojave-gtk-theme polybar nerd-fonts-complete starship-bin
