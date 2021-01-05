@@ -5,6 +5,7 @@
 . /home/$(whoami)/installscripts/functions
 
 USERNAME="$(whoami)"
+sudo chown -R $USERNAME:$USERNAME ~
 
 read -p "Do you want the virtualization suite of applications [y/n]? " VIRTUALIZATION
 
@@ -23,7 +24,13 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh bspwm sxhkd firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip libreoffice jq acpi bc perl xdo wmctrl neofetch dmenu $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh bspwm sxhkd firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip libreoffice jq acpi bc perl xdo wmctrl neofetch dmenu sysstat $VIRTPACKAGES
+
+git clone https://gitlab.com/jadecell/dmenu
+cd dmenu
+make && sudo make install
+cd ..
+rm -rf dmenu
 
 info "Installing dracula gtk theme"
 sudo mkdir -p /usr/share/themes
@@ -54,4 +61,6 @@ info "Installing all needed AUR packages"
 yay --noconfirm -S mojave-gtk-theme polybar nerd-fonts-complete starship-bin
 
 info "Installing dotfiles"
-git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles && cp -r ~/dotfiles/.* ~ && rm -rf ~/.git
+git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
+cp -r ~/dotfiles/.* ~
+rm -rf ~/.git
