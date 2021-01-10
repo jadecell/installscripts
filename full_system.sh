@@ -58,6 +58,15 @@ echo "exec dbus-launch bspwm" > ~/.xinitrc
 echo "[ -f ~/.bashrc ] && . ~/.bashrc" > ~/.bash_profile
 echo '[ "$(tty)" = "/dev/tty1" ] && startx' >> ~/.bash_profile
 
+info "Switching capslock and control for a better emacs experience"
+cat > ~/.Xmodmap <<EOF 
+clear lock
+clear control
+keycode 66 = Control_L
+add control = Control_L
+add Lock = Control_R
+EOF
+
 info "Installing all needed AUR packages"
 yay --noconfirm -S mojave-gtk-theme polybar nerd-fonts-complete starship-bin
 
