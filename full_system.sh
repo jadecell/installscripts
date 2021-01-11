@@ -24,14 +24,8 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh bspwm sxhkd firefox fish alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd python-pynvim yarn nodejs neovim pandoc lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl xdo wmctrl neofetch sysstat scrot cantarell-fonts emacs $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs $VIRTPACKAGES
 mkdir ~/scrot
-
-git clone https://gitlab.com/jadecell/dmenu
-cd dmenu
-make && sudo make install
-cd ..
-rm -rf dmenu
 
 info "Installing dracula gtk theme"
 sudo mkdir -p /usr/share/themes
@@ -54,9 +48,9 @@ if [[ "$VIRTUALIZATION" = "y" ]]; then
     sudo virsh net-autostart default
 fi
 
-echo "exec dbus-launch bspwm" > ~/.xinitrc
-echo "[ -f ~/.bashrc ] && . ~/.bashrc" > ~/.bash_profile
-echo '[ "$(tty)" = "/dev/tty1" ] && startx' >> ~/.bash_profile
+echo "exec dbus-launch dwm" > ~/.xinitrc
+echo "[ -f ~/.zshrc ] && . ~/.zshrc" > ~/.zprofile
+echo '[ "$(tty)" = "/dev/tty1" ] && startx' >> ~/.zprofile
 
 info "Switching capslock and control for a better emacs experience"
 cat > ~/.Xmodmap <<EOF 
@@ -68,7 +62,7 @@ add Lock = Control_R
 EOF
 
 info "Installing all needed AUR packages"
-yay --noconfirm -S mojave-gtk-theme polybar nerd-fonts-complete starship-bin
+yay --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git
 
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
