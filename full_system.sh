@@ -24,7 +24,7 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xcompmgr feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs $VIRTPACKAGES
 mkdir ~/scrot
 
 info "Installing dracula gtk theme"
@@ -34,11 +34,6 @@ unzip master.zip
 sudo cp -r gtk-master/ /usr/share/themes/Dracula
 rm master.zip
 
-info "Installing gruvbox-gtk"
-git clone https://github.com/3ximus/gruvbox-gtk
-sudo cp -rf gruvbox-gtk/ /usr/share/themes/gruvbox-gtk
-rm -rf gruvbox-gtk
-
 if [[ "$VIRTUALIZATION" = "y" ]]; then
     info "Virtualization setup"
     sudo systemctl enable --now libvirtd.service
@@ -47,6 +42,8 @@ if [[ "$VIRTUALIZATION" = "y" ]]; then
     sudo gpasswd -a $USERNAME kvm
     sudo virsh net-autostart default
 fi
+
+sudo chsh -s /bin/zsh $USERNAME
 
 echo "exec dbus-launch dwm" > ~/.xinitrc
 echo "[ -f ~/.zshrc ] && . ~/.zshrc" > ~/.zprofile
@@ -61,6 +58,20 @@ add control = Control_L
 add Lock = Control_R
 EOF
 
+mkdir -p ~/.local/share/dwm
+cat > ~/.local/share/dwm/autostart.sh <<EOF
+#!/bin/sh
+
+xset r rate 300 50 &
+xset s off -dpms &
+xrdb ~/.Xresources &
+xsetroot -solid "#171b23" &
+~/.config/fixmonitors.sh &
+xmodmap ~/.Xmodmap &
+aslstatus &
+EOF
+chmod 755 ~/.local/share/dwm/autostart.sh
+
 info "Installing all needed AUR packages"
 yay --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git
 
@@ -68,3 +79,5 @@ info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
 cp -r ~/dotfiles/.* ~
 rm -rf ~/.git
+
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

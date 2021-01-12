@@ -14,12 +14,10 @@ emerge --autounmask-continue x11-base/xorg-x11
 
 info "Installing all programs"
 
-flaggie firefox +hwaccel
-flaggie neovim +**
 flaggie libreoffice -branding
 flaggie clang-runtime -sanitize
-emerge --autounmask-continue feh bspwm sxhkd firefox fish alacritty nextcloud-client lsd dev-python/pip yarn lxappearance x11-misc/xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl ranger discord-bin spotify lxsession unzip libreoffice jq sys-power/acpi sys-devel/bc newsboat xdo wmctrl neofetch wget polybar dmenu wmname qt5ct qalculate-gtk htop kvantum
-emerge --autounmask-continue =app-editors/neovim-9999
+flaggie app-editors/emacs +gtk +gui
+emerge --autounmask-continue feh fish alacritty nextcloud-client lsd dev-python/pip yarn lxappearance x11-misc/xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl ranger discord-bin spotify lxsession unzip libreoffice jq sys-power/acpi sys-devel/bc newsboat xdo wmctrl neofetch wget wmname qt5ct qalculate-gtk htop kvantum
 
 info "Installing dracula gtk theme"
 mkdir -p /usr/share/themes
@@ -28,9 +26,23 @@ unzip master.zip
 cp -r gtk-master/ /usr/share/themes/Dracula
 rm master.zip
 
-git clone https://github.com/3ximus/gruvbox-gtk.git
-cp -rf gruvbox-gtk/ /usr/share/themes/gruvbox-gtk
-rm -rf gruvbox-gtk/
+git clone https://gitlab.com/jadecell/dwm.git
+cd dwm
+make install
+cd ..
+rm -rf dwm
 
-echo "exec dbus-launch bspwm" > /home/$USERNAME/.xinitrc
+git clone https://gitlab.com/jadecell/aslstatus.git
+cd aslstatus
+make install
+cd ..
+rm -rf aslstatus
+
+git clone https://gitlab.com/jadecell/dmenu.git
+cd dmenu
+make install
+cd ..
+rm -rf dmenu
+
+echo "exec dbus-launch dwm" > /home/$USERNAME/.xinitrc
 chown $USERNAME:$USERNAME /home/$USERNAME/.xinitrc
