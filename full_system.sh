@@ -76,6 +76,7 @@ chmod 755 ~/.local/share/dwm/autostart.sh
 
 info "Installing all needed AUR packages"
 paru --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git
+paru --gendb
 
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
