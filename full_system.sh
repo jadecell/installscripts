@@ -11,20 +11,21 @@ read -p "Do you want the virtualization suite of applications [y/n]? " VIRTUALIZ
 
 [ "$VIRTUALIZATION" = "y" ] && VIRTPACKAGES="virt-manager qemu libvirt dnsmasq edk2-ovmf ebtables iptables" || VIRTPACKAGES=""
 
-info "Installing yay-bin"
-git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg --noconfirm -si
+info "Installing paru-bin"
+git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg --noconfirm -si
 cd ..
-rm -rf yay-bin
+rm -rf paru-bin
+sudo sed -i -e "s/#BottomUp/BottomUp/g ; s/#SudoLoop/SudoLoop/g ; s/#UpgradeMenu/UpgradeMenu/g" /etc/paru.conf
 
 info "Setting up /etc/pacman.conf and /etc/makepkg.conf and updating sudoers"
 CPUTHREADS=$(grep -c processor /proc/cpuinfo)
-sudo sed -i -e 's/#Color/Color/g' /etc/pacman.conf
+sudo sed -i -e 's/#Color/Color/g ; s/#VerbosePkgLists/VerbosePkgLists/g' /etc/pacman.conf
 sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors $VIRTPACKAGES
 mkdir ~/scrot
 
 info "Installing dracula gtk theme"
@@ -65,7 +66,8 @@ cat > ~/.local/share/dwm/autostart.sh <<EOF
 xset r rate 300 50 &
 xset s off -dpms &
 xrdb ~/.Xresources &
-xsetroot -solid "#171b23" &
+feh --bg-scale ~/.config/wallpaper &
+/usr/bin/emacs --daemon &
 ~/.config/fixmonitors.sh &
 xmodmap ~/.Xmodmap &
 aslstatus &
@@ -73,11 +75,12 @@ EOF
 chmod 755 ~/.local/share/dwm/autostart.sh
 
 info "Installing all needed AUR packages"
-yay --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git
+paru --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git
 
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
 cp -r ~/dotfiles/.* ~
 rm -rf ~/.git
 
+info "Installing Oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
