@@ -25,7 +25,7 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors fd $VIRTPACKAGES
 mkdir ~/scrot
 
 info "Installing dracula gtk theme"
@@ -77,6 +77,10 @@ chmod 755 ~/.local/share/dwm/autostart.sh
 info "Installing all needed AUR packages"
 paru --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git
 paru --gendb
+
+info "Installing doom emacs"
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom -y install
 
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
