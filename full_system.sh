@@ -75,7 +75,7 @@ EOF
 chmod 755 ~/.local/share/dwm/autostart.sh
 
 info "Installing all needed AUR packages"
-paru --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git
+paru --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts
 paru --gendb
 
 info "Installing doom emacs"
