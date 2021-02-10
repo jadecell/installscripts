@@ -25,7 +25,7 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd $VIRTPACKAGES
 mkdir ~/scrot
 
 info "Installing dracula gtk theme"
@@ -59,23 +59,8 @@ add control = Control_L
 add Lock = Control_R
 EOF
 
-mkdir -p ~/.local/share/dwm
-cat > ~/.local/share/dwm/autostart.sh <<EOF
-#!/bin/sh
-
-xset r rate 300 50 &
-xset s off -dpms &
-xrdb ~/.Xresources &
-feh --bg-scale ~/.config/wallpaper &
-/usr/bin/emacs --daemon &
-~/.config/fixmonitors.sh &
-xmodmap ~/.Xmodmap &
-aslstatus &
-EOF
-chmod 755 ~/.local/share/dwm/autostart.sh
-
 info "Installing all needed AUR packages"
-paru --noconfirm -S nerd-fonts-complete starship-bin aslstatus-jadecell-git dwm-jadecell-git dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts
+paru --noconfirm -S nerd-fonts-complete starship-bin dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts
 paru --gendb
 
 info "Installing doom emacs"
