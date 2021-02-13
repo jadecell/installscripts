@@ -29,8 +29,6 @@ sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar
 sudo npm i -g prettier
 mkdir ~/scrot
 
-#This is a change
-
 info "Installing dracula gtk theme"
 sudo mkdir -p /usr/share/themes
 wget https://github.com/dracula/gtk/archive/master.zip
