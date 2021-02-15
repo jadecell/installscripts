@@ -17,24 +17,26 @@ cd ..
 rm -rf paru-bin
 sudo sed -i -e "s/#BottomUp/BottomUp/g ; s/#SudoLoop/SudoLoop/g ; s/#UpgradeMenu/UpgradeMenu/g" /etc/paru.conf
 
+sudo mkdir -p /etc/pacman.d/hooks
 info "Setting up /etc/pacman.conf and /etc/makepkg.conf and updating sudoers"
 CPUTHREADS=$(grep -c processor /proc/cpuinfo)
 sudo sed -i -e 's/#Color/Color/g ; s/#VerbosePkgLists/VerbosePkgLists/g' /etc/pacman.conf
+sudo sed -i -e 's/#HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//g' /etc/pacman.conf
 sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd $VIRTPACKAGES
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo $VIRTPACKAGES
 sudo npm i -g prettier
 mkdir ~/scrot
 
-info "Installing dracula gtk theme"
+info "Installing dt's dark gtk theme"
 sudo mkdir -p /usr/share/themes
-wget https://github.com/dracula/gtk/archive/master.zip
-unzip master.zip
-sudo cp -r gtk-master/ /usr/share/themes/Dracula
-rm master.zip
+git clone https://gitlab.com/dwt1/dt-dark-theme
+sudo cp -r dt-dark-theme/ /usr/share/themes/
+rm -rf dt-dark-theme/ 
+
 
 if [[ "$VIRTUALIZATION" = "y" ]]; then
     info "Virtualization setup"
@@ -61,17 +63,24 @@ add Lock = Control_R
 EOF
 
 info "Installing all needed AUR packages"
-paru --noconfirm -S nerd-fonts-complete starship-bin dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts librewolf-bin
+paru --noconfirm -S nerd-fonts-complete starship-bin dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts librewolf-bin devour
 paru --gendb
 
-info "Installing doom emacs"
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-~/.emacs.d/bin/doom -y install
 
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
 cp -r ~/dotfiles/.* ~
 rm -rf ~/.git
+sudo cp -r ~/.xmonad/pacman-hooks/* /etc/pacman.d/hooks
+rm -rf ~/.emacs.d
 
-info "Installing Oh-my-zsh"
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+info "Installing zsh-syntax-highlighting"
+tac ~/.zshrc | sed '1d' | tac > tmp && mv tmp ~/.zshrc 
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
+cd ~/.local/share/
+echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+cd ~
+
+info "Installing doom emacs"
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom -y install
