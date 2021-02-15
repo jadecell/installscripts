@@ -66,13 +66,13 @@ info "Installing all needed AUR packages"
 paru --noconfirm -S nerd-fonts-complete starship-bin dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts librewolf-bin devour
 paru --gendb
 
-
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
 cp -r ~/dotfiles/.* ~
 rm -rf ~/.git
 sudo cp -r ~/.xmonad/pacman-hooks/* /etc/pacman.d/hooks
 rm -rf ~/.emacs.d
+~/.local/bin/lwdrm
 
 info "Installing zsh-syntax-highlighting"
 tac ~/.zshrc | sed '1d' | tac > tmp && mv tmp ~/.zshrc 
