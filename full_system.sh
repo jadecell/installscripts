@@ -77,9 +77,7 @@ rm -rf ~/.emacs.d
 info "Installing zsh-syntax-highlighting"
 tac ~/.zshrc | sed '1d' | tac > tmp && mv tmp ~/.zshrc 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
-cd ~/.local/share/
-echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-cd ~
+echo "source /home/$(whomai)/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 
 info "Installing doom emacs"
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
