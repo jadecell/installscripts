@@ -42,7 +42,7 @@ fi
 
 sudo chsh -s /bin/zsh $USERNAME
 
-echo "exec dbus-launch dwm" > ~/.xinitrc
+echo "exec dbus-launch xmonad" > ~/.xinitrc
 echo "[ -f ~/.zshrc ] && . ~/.zshrc" > ~/.zprofile
 echo '[ "$(tty)" = "/dev/tty1" ] && startx' >> ~/.zprofile
 
