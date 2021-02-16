@@ -26,10 +26,6 @@ sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
-info "Updating mirrors"
-sudo pacman --needed --noconfirm -S reflector
-sudo reflector --country US --age 6 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-
 info "Installing all programs"
 sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo $VIRTPACKAGES
 sudo npm i -g prettier
@@ -81,4 +77,4 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom -y install
 
 clear
-echo -e "${GREEN}Completed! You can now startx!${NC}"
+echo -e "${GREEN}Completed!${NC} You can now ${RED}startx!${NC}"
