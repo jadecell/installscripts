@@ -26,17 +26,14 @@ sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
+info "Updating mirrors"
+sudo pacman --needed --noconfirm -S reflector
+sudo reflector --country US --age 6 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
 info "Installing all programs"
 sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord lxsession unzip zip libreoffice jq acpi bc perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo $VIRTPACKAGES
 sudo npm i -g prettier
 mkdir ~/scrot
-
-info "Installing dt's dark gtk theme"
-sudo mkdir -p /usr/share/themes
-git clone https://gitlab.com/dwt1/dt-dark-theme
-sudo cp -r dt-dark-theme/ /usr/share/themes/
-rm -rf dt-dark-theme/ 
-
 
 if [[ "$VIRTUALIZATION" = "y" ]]; then
     info "Virtualization setup"
@@ -63,7 +60,7 @@ add Lock = Control_R
 EOF
 
 info "Installing all needed AUR packages"
-paru --noconfirm -S nerd-fonts-complete starship-bin dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts librewolf-bin devour
+paru --noconfirm -S nerd-fonts-complete starship-bin dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts librewolf-bin devour mojave-gtk-theme
 paru --gendb
 
 info "Installing dotfiles"
@@ -82,3 +79,6 @@ echo "source /home/$(whomai)/.local/share/zsh-syntax-highlighting/zsh-syntax-hig
 info "Installing doom emacs"
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom -y install
+
+clear
+echo -e "${GREEN}Completed! You can now startx!${NC}"
