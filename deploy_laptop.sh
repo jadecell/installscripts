@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 # Execute base scripts and install programs
-
 cd ~/installscripts/
 sudo ./misc.sh && ./yay.sh && ./nerd-fonts.sh
 sudo pacman --noconfirm -S xcompmgr feh ranger emacs tlp alacritty xmonad xmonad-contrib xmobar ttf-ubuntu-font-family thunderbird jre-openjdk jdk-openjdk intellij-idea-community-edition trayer nextcloud-client python-pip
