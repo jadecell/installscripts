@@ -27,7 +27,7 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler cmake mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord rxvt-unicode lxsession unzip zip libreoffice jq acpi bc trayer xcompmgr perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo ttf-ubuntu-font-family $VIRTPACKAGESS
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler cmake mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord rxvt-unicode geary lxsession unzip zip libreoffice jq acpi bc trayer xcompmgr perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo ttf-ubuntu-font-family $VIRTPACKAGESS
 sudo npm i -g prettier
 mkdir ~/scrot
 
