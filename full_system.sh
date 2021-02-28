@@ -27,7 +27,7 @@ sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler cmake mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord rxvt-unicode geary lxsession unzip zip libreoffice jq acpi bc trayer xcompmgr perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo ttf-ubuntu-font-family $VIRTPACKAGESS
+sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler cmake mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord rxvt-unicode libvterm geary lxsession unzip zip libreoffice jq acpi bc trayer xcompmgr perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo ttf-ubuntu-font-family $VIRTPACKAGESS
 sudo npm i -g prettier
 mkdir ~/scrot
 
@@ -43,8 +43,6 @@ fi
 sudo chsh -s /bin/zsh $USERNAME
 
 echo "exec dbus-launch xmonad" > ~/.xinitrc
-echo "[ -f ~/.zshrc ] && . ~/.zshrc" > ~/.zprofile
-echo '[ "$(tty)" = "/dev/tty1" ] && startx' >> ~/.zprofile
 
 info "Switching capslock and control for a better emacs experience"
 cat > ~/.Xmodmap <<EOF 
@@ -66,11 +64,13 @@ rm -rf ~/.git
 sudo cp -r ~/.xmonad/pacman-hooks/* /etc/pacman.d/hooks
 rm -rf ~/.emacs.d
 ~/.local/bin/lwdrm
+ln -s ~/.config/shell/profile .zprofile
+ln -s ~/.config/shell/profile .bash_profile
 
 info "Installing zsh-syntax-highlighting"
-tac ~/.zshrc | sed '1d' | tac > tmp && mv tmp ~/.zshrc 
+tac ~/.config/zsh/.zshrc | sed '1d' | tac > tmp && mv tmp ~/.config/zsh/.zshrc
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
-echo "source /home/$(whoami)/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+echo "source /home/$(whoami)/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.config/zsh/.zshrc
 
 info "Installing doom emacs"
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
