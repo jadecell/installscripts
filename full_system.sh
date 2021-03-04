@@ -61,8 +61,8 @@ info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
 cp -r ~/dotfiles/.* ~
 rm -rf ~/.git
-mkdir ~/.cache/xmonad/
-mkdir ~/.local/share/xmonad/
+mkdir -p ~/.cache/xmonad/
+mkdir -p ~/.local/share/xmonad/
 sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
 rm -rf ~/.emacs.d
 ~/.local/bin/lwdrm
