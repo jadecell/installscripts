@@ -9,8 +9,6 @@ sudo chown -R $USERNAME:$USERNAME ~
 
 read -p "Do you want the virtualization suite of applications [y/n]? " VIRTUALIZATION
 
-[ "$VIRTUALIZATION" = "y" ] && VIRTPACKAGES="virt-manager qemu libvirt dnsmasq edk2-ovmf ebtables iptables" || VIRTPACKAGES=""
-
 info "Installing paru-bin"
 git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg --noconfirm -si
 cd ..
@@ -26,8 +24,13 @@ sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
 
+info "Installing dotfiles"
+git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
+~/dotfiles/setup
+
+[ "$VIRTUALIZATION" = "y" ] && sudo pacman --needed --noconfirm -S virt-manager qemu libvirt dnsmasq edk2-ovmf ebtables iptables
+
 info "Installing all programs"
-sudo pacman --needed --noconfirm -S xorg xorg-xinit xmonad xmonad-contrib xmobar feh alacritty texlive-most texlive-lang jdk-openjdk jre-openjdk nextcloud-client lsd nodejs npm lxappearance xclip zathura zathura-pdf-poppler cmake mpv dunst pulseaudio pavucontrol pulsemixer playerctl pacman-contrib ranger discord rxvt-unicode libvterm geary lxsession unzip zip libreoffice jq acpi bc trayer xcompmgr perl neofetch sysstat scrot cantarell-fonts emacs bat lm_sensors ripgrep fd xdo ttf-ubuntu-font-family $VIRTPACKAGESS
 sudo npm i -g prettier
 mkdir ~/scrot
 
@@ -53,18 +56,9 @@ add control = Control_L
 add Lock = Control_R
 EOF
 
-info "Installing all needed AUR packages"
-paru --noconfirm -S nerd-fonts-complete starship-bin dmenu-jadecell-git ttf-vista-fonts ttf-ms-fonts librewolf-bin devour mojave-gtk-theme
-paru --gendb
-
-info "Installing dotfiles"
-git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
-cp -r ~/dotfiles/.* ~
-rm -rf ~/.git
 mkdir -p ~/.cache/xmonad/
 mkdir -p ~/.local/share/xmonad/
 sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
-rm -rf ~/.emacs.d
 ~/.local/bin/lwdrm
 ln -s ~/.config/shell/profile .zprofile
 ln -s ~/.config/shell/profile .bash_profile
@@ -79,4 +73,4 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom -y install
 
 clear
-echo -e "${GREEN}Completed!${NC} You can now ${RED}startx!${NC}"
+echo -e "${BLUE}Completed!${NC} You can now ${MAGENTA}startx!${NC}"
