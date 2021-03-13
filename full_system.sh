@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
 [ $EUID -eq 0 ] && echo "Do not run this script as root. Please run as a non-priviledged user." && exit 1
-. /home/$(whoami)/installscripts/colors
-. /home/$(whoami)/installscripts/functions
+. $HOME/installscripts/colors
+. $HOME/installscripts/functions
 
 USERNAME="$(whoami)"
 sudo chown -R $USERNAME:$USERNAME ~
@@ -45,7 +45,7 @@ fi
 
 sudo chsh -s /bin/zsh $USERNAME
 
-echo "exec dbus-launch xmonad" > ~/.xinitrc
+echo "exec dbus-launch dwm" > ~/.xinitrc
 
 info "Switching capslock and control for a better emacs experience"
 cat > ~/.Xmodmap <<EOF 
@@ -56,12 +56,31 @@ add control = Control_L
 add Lock = Control_R
 EOF
 
-mkdir -p ~/.cache/xmonad/
-mkdir -p ~/.local/share/xmonad/
-sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
+info "Creating the autostart file for dwm"
+mkdir -p ~/.local/share/dwm/
+cat > ~/.local/share/dwm/autostart.sh <<EOF
+xset r rate 300 50 &
+xset s off -dpms &
+xrdb ~/.Xresources &
+xmodmap ~/.Xmodmap &
+wmname "LG3D" &
+/usr/bin/emacs --daemon &
+aslstatus &
+xcompmgr &
+feh --bg-scale ~/.config/wallpaper &
+EOF
+chmod 755 ~/.local/share/dwm/autostart.sh
+
+info "Cloning wallpapers if not already present"
+[ ! -d ~/wallpapers ] && git clone https://gitlab.com/jadecell/wallpapers.git ~/wallpapers
+
+### XMonad stuff
+# mkdir -p ~/.cache/xmonad/
+# mkdir -p ~/.local/share/xmonad/
+# sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
 ~/.local/bin/lwdrm
-ln -s ~/.config/shell/profile .zprofile
-ln -s ~/.config/shell/profile .bash_profile
+ln -s ~/dotfiles/home/.config/shell/profile .zprofile
+ln -s ~/dotfiles/home/.config/shell/profile .bash_profile
 
 info "Installing zsh plugins"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
