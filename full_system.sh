@@ -59,6 +59,7 @@ EOF
 info "Creating the autostart file for dwm"
 mkdir -p ~/.local/share/dwm/
 cat > ~/.local/share/dwm/autostart.sh <<EOF
+#!/usr/bin/env sh
 xset r rate 300 50 &
 xset s off -dpms &
 xrdb ~/.Xresources &
