@@ -63,10 +63,9 @@ sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
 ln -s ~/.config/shell/profile .zprofile
 ln -s ~/.config/shell/profile .bash_profile
 
-info "Installing zsh-syntax-highlighting"
-tac ~/.config/zsh/.zshrc | sed '1d' | tac > tmp && mv tmp ~/.config/zsh/.zshrc
+info "Installing zsh plugins"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
-echo "source /home/$(whoami)/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.config/zsh/.zshrc
+git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.local/share/zsh-vi-mode/ 
 
 info "Installing doom emacs"
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
