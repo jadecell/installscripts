@@ -79,8 +79,8 @@ info "Cloning wallpapers if not already present"
 # mkdir -p ~/.local/share/xmonad/
 # sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
 ~/.local/bin/lwdrm
-ln -s ~/dotfiles/home/.config/shell/profile .zprofile
-ln -s ~/dotfiles/home/.config/shell/profile .bash_profile
+ln -s ~/dotfiles/home/.config/shell/profile ~/.zprofile
+ln -s ~/dotfiles/home/.config/shell/profile ~/.bash_profile
 
 info "Installing zsh plugins"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
