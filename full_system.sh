@@ -63,6 +63,13 @@ info "Installing zsh plugins"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
 git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.local/share/zsh-vi-mode/ 
 
+info "Installing dwmblocks"
+git clone https://gitlab.com/jadecell/dwmblocks.git dwmblocks
+cd dwmblocks
+make && sudo make install
+cd ..
+rm -rf dwmblocks
+
 info "Installing doom emacs"
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom -y install
