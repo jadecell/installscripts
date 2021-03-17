@@ -22,7 +22,7 @@ sudo sed -i -e 's/#Color/Color/g ; s/#VerbosePkgLists/VerbosePkgLists/g' /etc/pa
 sudo sed -i -e 's/#HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//g' /etc/pacman.conf
 sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
-sudo sed -i -e "s/#\ Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\"/Defaults\ secure_path=\"\/usr\/local\/sbin\:\/usr\/local\/bin\:\/usr\/sbin\:\/usr\/bin\:\/sbin\:\/bin\:\/home\/$USERNAME\/.local\/bin\"/g" /etc/sudoers
+sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\"|Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/home/$USERNAME/.local/bin\"|g" /etc/sudoers
 
 info "Creating some directories"
 mkdir -p ~/.config
@@ -47,37 +47,8 @@ if [[ "$VIRTUALIZATION" = "y" ]]; then
     sudo virsh net-autostart default
 fi
 
-sudo chsh -s /bin/zsh $USERNAME
-
-echo "exec dbus-launch dwm" > ~/.xinitrc
-
-info "Switching capslock and control for a better emacs experience"
-cat > ~/.Xmodmap <<EOF 
-clear lock
-clear control
-keycode 66 = Control_L
-add control = Control_L
-add Lock = Control_R
-EOF
-
-info "Creating the autostart file for dwm"
-mkdir -p ~/.local/share/dwm/
-cat > ~/.local/share/dwm/autostart.sh <<EOF
-#!/usr/bin/env sh
-xset r rate 300 50 &
-xset s off -dpms &
-xrdb ~/.Xresources &
-xmodmap ~/.Xmodmap &
-wmname "LG3D" &
-/usr/bin/emacs --daemon &
-aslstatus &
-xcompmgr &
-feh --bg-scale ~/.config/wallpaper &
-EOF
-chmod 755 ~/.local/share/dwm/autostart.sh
-
 info "Cloning wallpapers if not already present"
-[ ! -d ~/wallpapers ] && git clone https://gitlab.com/jadecell/wallpapers.git ~/wallpapers
+[ ! -d ~/wallpapers ] && git clone https://gitlab.com/jadecell/wallpapers.git ~/wallpapers && ln -s ~/wallpapers/29.png ~/.config/wallpaper
 
 ### XMonad stuff
 # mkdir -p ~/.cache/xmonad/
@@ -86,6 +57,7 @@ info "Cloning wallpapers if not already present"
 ~/.local/bin/lwdrm
 ln -s ~/dotfiles/home/.config/shell/profile ~/.zprofile
 ln -s ~/dotfiles/home/.config/shell/profile ~/.bash_profile
+ln -s ~/dotfiles/home/.config/x11/xprofile ~/.xprofile
 
 info "Installing zsh plugins"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
