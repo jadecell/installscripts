@@ -4,7 +4,6 @@
 . $HOME/installscripts/colors
 . $HOME/installscripts/functions
 
-# Sets the username
 USERNAME="$(whoami)"
 sudo chown -R $USERNAME:$USERNAME ~
 
