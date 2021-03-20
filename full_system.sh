@@ -4,6 +4,7 @@
 . $HOME/installscripts/colors
 . $HOME/installscripts/functions
 
+# This is a comment
 USERNAME="$(whoami)"
 sudo chown -R $USERNAME:$USERNAME ~
 
