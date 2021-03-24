@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 [ $EUID -eq 0 ] && echo "Do not run this script as root. Please run as a non-priviledged user." && exit 1
 . $HOME/installscripts/colors
@@ -26,11 +26,11 @@ sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/u
 
 info "Creating some directories"
 mkdir -p ~/.config
-mkdir -p ~/.local/{share,lib}
+mkdir -p ~/.local/{share,lib,repos}
 
 info "Installing dotfiles"
-git clone https://gitlab.com/jadecell/dotfiles ~/dotfiles
-~/dotfiles/setup
+git clone https://gitlab.com/jadecell/dotfiles ~/.local/repos/dotfiles
+~/.local/repos/dotfiles/setup
 
 [ "$VIRTUALIZATION" = "y" ] && sudo pacman --needed --noconfirm -S virt-manager qemu libvirt dnsmasq edk2-ovmf ebtables iptables
 
@@ -38,7 +38,7 @@ info "Installing all programs"
 sudo npm i -g prettier
 mkdir ~/scrot
 
-if [[ "$VIRTUALIZATION" = "y" ]]; then
+if [ "$VIRTUALIZATION" = "y" ]; then
     info "Virtualization setup"
     sudo systemctl enable --now libvirtd.service
     sudo systemctl enable --now virtlogd.socket
@@ -48,31 +48,28 @@ if [[ "$VIRTUALIZATION" = "y" ]]; then
 fi
 
 info "Cloning wallpapers if not already present"
-[ ! -d ~/wallpapers ] && git clone https://gitlab.com/jadecell/wallpapers.git ~/wallpapers && ln -s ~/wallpapers/29.png ~/.config/wallpaper
+[ ! -d ~/.local/repos/wallpapers ] && git clone https://gitlab.com/jadecell/wallpapers.git ~/.local/repos/wallpapers && ln -s ~/.local/repos/wallpapers/29.png ~/.config/wallpaper
 
 ### XMonad stuff
 # mkdir -p ~/.cache/xmonad/
 # mkdir -p ~/.local/share/xmonad/
 # sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
 ~/.local/bin/lwdrm
-ln -s ~/dotfiles/home/.config/shell/profile ~/.zprofile
-ln -s ~/dotfiles/home/.config/shell/profile ~/.bash_profile
-ln -s ~/dotfiles/home/.config/x11/xprofile ~/.xprofile
+ln -s ~/.local/repos/dotfiles/home/.config/shell/profile ~/.zprofile
+ln -s ~/.local/repos/dotfiles/home/.config/shell/profile ~/.bash_profile
+ln -s ~/.local/repos/dotfiles/home/.config/x11/xprofile ~/.xprofile
 
 info "Installing zsh plugins"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh-syntax-highlighting/
-git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.local/share/zsh-vi-mode/ 
+git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.local/share/zsh-vi-mode/
 
 info "Installing dwmblocks"
-git clone https://gitlab.com/jadecell/dwmblocks.git dwmblocks
-cd dwmblocks
+git clone https://gitlab.com/jadecell/dwmblocks.git ~/.local/repos/dwmblocks
+cd ~/.local/repos/dwmblocks
 make && sudo make install
-cd ..
-rm -rf dwmblocks
 
-info "Installing doom emacs"
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-~/.emacs.d/bin/doom -y install
+# info "Installing doom emacs"
+# git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+# ~/.emacs.d/bin/doom -y install
 
 clear
-echo -e "${BLUE}Completed!${NC} You can now ${MAGENTA}startx!${NC}"
