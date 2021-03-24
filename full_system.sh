@@ -78,4 +78,7 @@ nvim -u $HOME/.config/nvim/init.lua --headless --noplugin +PackerInstall +qall
 # git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 # ~/.emacs.d/bin/doom -y install
 
+info "Installing libxft-bgra so dwm does not crash"
+paru -S libxft-bgra
+
 clear
