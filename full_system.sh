@@ -68,11 +68,11 @@ git clone https://gitlab.com/jadecell/dwmblocks.git ~/.local/repos/dwmblocks
 cd ~/.local/repos/dwmblocks
 make && sudo make install
 
-info "Installing neovim config"
-
-git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-nvim -u $HOME/.config/nvim/init.lua --headless --noplugin +PackerInstall +qall
-~/.config/nvim/scripts/install-language-servers.sh
+# info "Installing neovim config"
+#
+# git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+# nvim -u $HOME/.config/nvim/init.lua --headless --noplugin +PackerInstall +qall
+# ~/.config/nvim/scripts/install-language-servers.sh
 
 # info "Installing doom emacs"
 # git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
