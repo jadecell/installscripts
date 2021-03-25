@@ -24,10 +24,6 @@ sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\"|Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/home/$USERNAME/.local/bin\"|g" /etc/sudoers
 
-info "Creating some directories"
-mkdir -p ~/.config
-mkdir -p ~/.local/{share,lib,repos}
-
 info "Installing dotfiles"
 git clone https://gitlab.com/jadecell/dotfiles ~/.local/repos/dotfiles
 ~/.local/repos/dotfiles/setup
