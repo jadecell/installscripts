@@ -8,6 +8,9 @@ sudo chown -R "$USERNAME":"$USERNAME" ~
 echo "Do you want the virtualization suite of applications [y/n]? "
 read -r VIRTUALIZATION
 
+echo "Do you want to install (N)eovim or (D)oom Emacs? "
+read -r NEOVIMORDOOMEMACS
+
 git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg --noconfirm -si
 cd ..
 rm -rf paru-bin
@@ -65,10 +68,29 @@ git clone https://gitlab.com/jadecell/st.git ~/.local/repos/st
 cd ~/.local/repos/st || exit 1
 make && sudo make install
 
-# Nvim stuff to make installation a little bit easier
-git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-~/.config/nvim/scripts/install-language-servers.sh
+if [ "$NEOVIMORDOOMEMACS" = "n" ]; then
+
+    # Nvim stuff to make installation a little bit easier
+    git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim || exit 1
+    ~/.config/nvim/scripts/install-language-servers.sh
+
+elif [ "$NEOVIMORDOOMEMACS" = "d" ]; then
+
+    git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d/ || exit 1
+    ~/.emacs.d/bin/doom -y install
+
+else
+
+    # Nvim stuff to make installation a little bit easier
+    git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim || exit 1
+    ~/.config/nvim/scripts/install-language-servers.sh
+
+    git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d/ || exit 1
+    ~/.emacs.d/bin/doom -y install
+
+fi
 
 paru -S libxft-bgra
 
 clear
+echo "Everything deployed correctly!"
