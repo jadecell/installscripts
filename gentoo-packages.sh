@@ -4,18 +4,18 @@
 # https://wiki.gentoo.org/wiki/Xorg/Guide
  
 # overlays added: menelkir src_prepare-overlay thegreatmcpain bobwya
-# sudo emerge app-eselect/eselect-repository
-# sudo mkdir -p /etc/portage/repos.conf
-# sudo eselect repository enable menelkir src_prepare-overlay thegreatmcpain bobwya
-# sudo eix-sync
+sudo emerge app-eselect/eselect-repository
+sudo mkdir -p /etc/portage/repos.conf
+sudo eselect repository enable menelkir src_prepare-overlay thegreatmcpain bobwya
+sudo eix-sync
 
-# git clone https://gitlab.com/et-8/glarbs-deploy
-# sudo mkdir -p /etc/portage/patches/x11-libs/libXft
-# sudo cp glarbs-deploy/etc/portage/patches/x11-libs/libXft/*.patch /etc/portage/patches/x11-libs/libXft/
-# sudo emerge x11-libs/libXft
-# rm -rf glarbs-deploy
+git clone https://gitlab.com/et-8/glarbs-deploy
+sudo mkdir -p /etc/portage/patches/x11-libs/libXft
+sudo cp glarbs-deploy/etc/portage/patches/x11-libs/libXft/*.patch /etc/portage/patches/x11-libs/libXft/
+sudo emerge x11-libs/libXft
+rm -rf glarbs-deploy
 
-# eselect news read >/dev/null 2>&1
+eselect news read >/dev/null 2>&1
 
 curl -fsSL https://starship.rs/install.sh | bash
 
