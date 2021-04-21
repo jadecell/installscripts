@@ -71,8 +71,8 @@ make && sudo make install
 if [ "$NEOVIMORDOOMEMACS" = "n" ]; then
 
     # Nvim stuff to make installation a little bit easier
+    mkdir -p ~/.local/share/nvim/site/pack/packer/start/
     git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim || exit 1
-    ~/.config/nvim/scripts/install-language-servers.sh
 
 elif [ "$NEOVIMORDOOMEMACS" = "d" ]; then
 
@@ -82,8 +82,8 @@ elif [ "$NEOVIMORDOOMEMACS" = "d" ]; then
 else
 
     # Nvim stuff to make installation a little bit easier
+    mkdir -p ~/.local/share/nvim/site/pack/packer/start/
     git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim || exit 1
-    ~/.config/nvim/scripts/install-language-servers.sh
 
     git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d/ || exit 1
     ~/.emacs.d/bin/doom -y install
