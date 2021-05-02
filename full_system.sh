@@ -22,8 +22,15 @@ sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
 sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\"|Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/home/$USERNAME/.local/bin\"|g" /etc/sudoers
 
+mkdir -p ~/.local
+mkdir -p ~/.config
+mkdir -p ~/.cache
+mkdir -p ~/.local/repos
+mkdir -p ~/.local/share
+mkdir -p ~/.local/lib
+
 git clone https://github.com/jadecell/dotfiles ~/.local/repos/dotfiles
-~/.local/repos/dotfiles/setup
+~/.local/repos/dotfiles/packages-pacman
 
 [ "$VIRTUALIZATION" = "y" ] && sudo pacman --needed --noconfirm -S virt-manager qemu libvirt dnsmasq edk2-ovmf iptables-nft iptables
 
@@ -41,9 +48,12 @@ if [ "$VIRTUALIZATION" = "y" ]; then
 fi
 
 ### XMonad stuff
-# mkdir -p ~/.cache/xmonad/
-# mkdir -p ~/.local/share/xmonad/
-# sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
+mkdir -p ~/.cache/xmonad/
+mkdir -p ~/.local/share/xmonad/
+#sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
+rm ~/.xprofile
+rm ~/.zprofile
+rm ~/.bash_profile
 ln -s ~/.local/repos/dotfiles/home/.config/shell/profile ~/.zprofile
 ln -s ~/.local/repos/dotfiles/home/.config/shell/profile ~/.bash_profile
 ln -s ~/.local/repos/dotfiles/home/.config/x11/xprofile ~/.xprofile
@@ -58,6 +68,10 @@ make && sudo make install
 
 git clone https://github.com/jadecell/dwm.git ~/.local/repos/dwm
 cd ~/.local/repos/dwm || exit 1
+make && sudo make install
+
+git clone https://github.com/jadecell/st.git ~/.local/repos/st
+cd ~/.local/repos/st || exit 1
 make && sudo make install
 
 git clone https://github.com/jadecell/dmenu.git ~/.local/repos/dmenu
