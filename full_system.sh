@@ -30,7 +30,7 @@ mkdir -p ~/.local/lib
 git clone https://github.com/jadecell/dotfiles ~/.local/repos/dotfiles
 ~/.local/repos/dotfiles/packages-pacman
 
-[ "$VIRTUALIZATION" = "y" ] && sudo pacman --needed --noconfirm -S virt-manager qemu libvirt dnsmasq edk2-ovmf iptables-nft iptables
+[ "$VIRTUALIZATION" = "y" ] && sudo pacman --needed --noconfirm -S virt-manager qemu libvirt dnsmasq edk2-ovmf iptables-nft
 
 sudo chsh -s /bin/zsh "$USERNAME"
 
@@ -78,7 +78,7 @@ make && sudo make install
 
 paru -S libxft-bgra
 
-sudo chsh -s /bin/zsh root
+sudo chsh -s /bin/zsh "root"
 sudo wget -O /root/.zshrc https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
 clear
 echo "Everything deployed correctly!"
