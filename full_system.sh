@@ -2,6 +2,7 @@
 
 [ "$(whoami)" = "root" ] && echo "Do not run this script as root. Please run as a non-priviledged user." && exit 1
 
+USERNAME="$(whoami)"
 sudo chown -R "$USERNAME":"$USERNAME" ~
 
 printf "Want to install vrtualization packages [y/n]? "
@@ -29,6 +30,7 @@ mkdir -p ~/.local/lib
 
 git clone https://github.com/jadecell/dotfiles ~/.local/repos/dotfiles
 ~/.local/repos/dotfiles/packages-pacman
+~/.local/repos/dotfiles/setup home
 
 [ "$VIRTUALIZATION" = "y" ] && sudo pacman --needed --noconfirm -S virt-manager qemu libvirt dnsmasq edk2-ovmf iptables-nft
 
