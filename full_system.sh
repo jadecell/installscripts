@@ -2,7 +2,6 @@
 
 [ "$(whoami)" = "root" ] && echo "Do not run this script as root. Please run as a non-priviledged user." && exit 1
 
-USERNAME="$(whoami)"
 sudo chown -R "$USERNAME":"$USERNAME" ~
 
 printf "Want to install vrtualization packages [y/n]? "
@@ -14,7 +13,6 @@ rm -rf paru-bin
 sudo sed -i -e "s/#BottomUp/BottomUp/g ; s/#SudoLoop/SudoLoop/g ; s/#UpgradeMenu/UpgradeMenu/g" /etc/paru.conf
 
 sudo mkdir -p /etc/pacman.d/hooks
-info "Setting up /etc/pacman.conf and /etc/makepkg.conf and updating sudoers"
 CPUTHREADS=$(grep -c processor /proc/cpuinfo)
 sudo sed -i -e 's/#Color/Color/g ; s/#VerbosePkgLists/VerbosePkgLists/g' /etc/pacman.conf
 sudo sed -i -e 's/#HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//g' /etc/pacman.conf
@@ -80,5 +78,7 @@ make && sudo make install
 
 paru -S libxft-bgra
 
+sudo chsh -s /bin/zsh root
+sudo wget -O /root/.zshrc https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
 clear
 echo "Everything deployed correctly!"
