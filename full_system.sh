@@ -2,11 +2,8 @@
 
 [ "$(whoami)" = "root" ] && echo "Do not run this script as root. Please run as a non-priviledged user." && exit 1
 
-USERNAME="$(whoami)"
-sudo chown -R "$USERNAME":"$USERNAME" ~
-
-printf "Want to install vrtualization packages [y/n]? "
-read -r VIRTUALIZATION
+USERNAMEOFUSER="$(whoami)"
+sudo chown -R "$USERNAMEOFUSER":"$USERNAMEOFUSER" ~
 
 git clone https://aur.archlinux.org/paru-bin.git && cd paru-bin && makepkg --noconfirm -si
 cd ..
@@ -19,7 +16,7 @@ sudo sed -i -e 's/#Color/Color/g ; s/#VerbosePkgLists/VerbosePkgLists/g' /etc/pa
 sudo sed -i -e 's/#HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//g' /etc/pacman.conf
 sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
-sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\"|Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/home/$USERNAME/.local/bin\"|g" /etc/sudoers
+sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\"|Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/home/$USERNAMEOFUSER/.local/bin\"|g" /etc/sudoers
 
 mkdir -p ~/.local
 mkdir -p ~/.config
@@ -32,20 +29,10 @@ git clone https://github.com/jadecell/dotfiles ~/.local/repos/dotfiles
 ~/.local/repos/dotfiles/packages-pacman
 ~/.local/repos/dotfiles/setup home
 
-[ "$VIRTUALIZATION" = "y" ] && sudo pacman --needed --noconfirm -S virt-manager qemu libvirt dnsmasq edk2-ovmf iptables-nft
-
-sudo chsh -s /bin/zsh "$USERNAME"
+sudo chsh -s /bin/zsh "$USERNAMEOFUSER"
 
 sudo npm i -g prettier
 mkdir ~/scrot
-
-if [ "$VIRTUALIZATION" = "y" ]; then
-    sudo systemctl enable --now libvirtd.service
-    sudo systemctl enable --now virtlogd.socket
-    sudo gpasswd -a "$USERNAME" libvirt
-    sudo gpasswd -a "$USERNAME" kvm
-    sudo virsh net-autostart default
-fi
 
 ### XMonad stuff
 mkdir -p ~/.cache/xmonad/
