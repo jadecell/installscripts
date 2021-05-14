@@ -12,10 +12,11 @@ sudo sed -i -e "s/#BottomUp/BottomUp/g ; s/#SudoLoop/SudoLoop/g ; s/#UpgradeMenu
 
 sudo mkdir -p /etc/pacman.d/hooks
 CPUTHREADS=$(grep -c processor /proc/cpuinfo)
+CPUTHREADSPLUSONE=$((CPUTHREADS + 1))
 sudo sed -i -e 's/#Color/Color/g ; s/#VerbosePkgLists/VerbosePkgLists/g' /etc/pacman.conf
 sudo sed -i -e 's/#HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//HookDir\ \ \ \ \ =\ \/etc\/pacman.d\/hooks\//g' /etc/pacman.conf
 sudo sed -i '37i ILoveCandy' /etc/pacman.conf
-sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADS\"/g" /etc/makepkg.conf
+sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADSPLUSONE\"/g" /etc/makepkg.conf
 sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\"|Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/home/$USERNAMEOFUSER/.local/bin\"|g" /etc/sudoers
 
 mkdir -p ~/.local
@@ -31,7 +32,7 @@ git clone https://github.com/jadecell/dotfiles ~/.local/repos/dotfiles
 
 sudo chsh -s /bin/zsh "$USERNAMEOFUSER"
 
-sudo npm i -g prettier
+sudo npm i -g prettier tree-sitter-cli pyright emmet-ls
 mkdir ~/scrot
 
 ### XMonad stuff
