@@ -19,28 +19,18 @@ sudo sed -i '37i ILoveCandy' /etc/pacman.conf
 sudo sed -i -e "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$CPUTHREADSPLUSONE\"/g" /etc/makepkg.conf
 sudo sed -i -e "s|#\ Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\"|Defaults\ secure_path=\"/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/home/$USERNAMEOFUSER/.local/bin\"|g" /etc/sudoers
 
-mkdir -p ~/.local
-mkdir -p ~/.config
-mkdir -p ~/.cache
-mkdir -p ~/.local/repos
-mkdir -p ~/.local/share
-mkdir -p ~/.local/lib
-
-git clone https://github.com/jadecell/dotfiles ~/.local/repos/dotfiles
 ~/.local/repos/dotfiles/packages-pacman
 ~/.local/repos/dotfiles/setup home
 
 sudo chsh -s /bin/zsh "$USERNAMEOFUSER"
 
-sudo npm i -g prettier tree-sitter-cli pyright emmet-ls
+sudo npm i -g emmet-ls
 mkdir ~/scrot
 
 ### XMonad stuff
 mkdir -p ~/.cache/xmonad/
 mkdir -p ~/.local/share/xmonad/
 #sudo cp -r ~/.config/xmonad/pacman-hooks/* /etc/pacman.d/hooks
-rm ~/.xprofile
-rm ~/.zprofile
 rm ~/.bash_profile
 ln -s ~/.local/repos/dotfiles/home/.config/shell/profile ~/.zprofile
 ln -s ~/.local/repos/dotfiles/home/.config/shell/profile ~/.bash_profile
@@ -50,19 +40,15 @@ mkdir -p ~/.local/share/zsh
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.local/share/zsh/zsh-syntax-highlighting/
 git clone https://github.com/jeffreytse/zsh-vi-mode.git ~/.local/share/zsh/zsh-vi-mode/
 
-git clone https://github.com/jadecell/dwmblocks.git ~/.local/repos/dwmblocks
 cd ~/.local/repos/dwmblocks || exit 1
 make && sudo make install
 
-git clone https://github.com/jadecell/dwm.git ~/.local/repos/dwm
 cd ~/.local/repos/dwm || exit 1
 make && sudo make install
 
-git clone https://github.com/jadecell/st.git ~/.local/repos/st
 cd ~/.local/repos/st || exit 1
 make && sudo make install
 
-git clone https://github.com/jadecell/dmenu.git ~/.local/repos/dmenu
 cd ~/.local/repos/dmenu || exit 1
 make && sudo make install
 
